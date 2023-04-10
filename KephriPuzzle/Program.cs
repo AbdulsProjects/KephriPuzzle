@@ -1,4 +1,6 @@
-﻿//This program is used to solve the khephri puzzle in the most optimal way for all layouts
+﻿//IMPROVE BY INVERTING THE PROCESS (start from turn 1 and change all, check for win, then move to 2)
+
+//This program is used to solve the khephri puzzle in the most optimal way for all layouts
 namespace KhephriPuzzle
 {
     internal class Program
@@ -11,7 +13,7 @@ namespace KhephriPuzzle
             foreach (int turn in bestTurns)
             {
                 Console.WriteLine(turn);
-            }
+           }
         }
 
         //Simulating all possible 10-turn moves for the current board, and returning the best tile order
