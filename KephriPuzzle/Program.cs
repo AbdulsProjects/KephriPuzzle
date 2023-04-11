@@ -1,6 +1,4 @@
-﻿//IMPROVE BY INVERTING THE PROCESS (start from turn 1 and change all, check for win, then move to 2)
-
-//This program is used to solve the khephri puzzle in the most optimal way for all layouts
+﻿//This program is used to solve the khephri puzzle in the most optimal way for all layouts
 namespace KhephriPuzzle
 {
     internal class Program
@@ -13,22 +11,25 @@ namespace KhephriPuzzle
             foreach (int turn in bestTurns)
             {
                 Console.WriteLine(turn);
-           }
+            }
         }
 
         //Simulating all possible 10-turn moves for the current board, and returning the best tile order
         static int[] SimulateGame(bool[,] board)
         {
-            //Creating an array that stores the tiles flipped for each turn. The same tile can't be flipped on 2 consecutive 
-            int[] flipOrder = { 1, 2, 1, 2, 1, 2, 1, 2, 1, 2 };
+            //Creating an array that stores the tiles flipped for each turn
+            int[] flipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
             int[] optimalFlipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
             int turnsToWin = 10;
             bool simulationComplete = false;
+            bool[,] savedBoardState = new bool[3, 3];
+            Array.Copy(board, savedBoardState, board.Length);
 
             //NEED TO MAKE IT LOOP THROUGH AND CHANGE THE TURN combination
 
             while (!simulationComplete)
             {
+                Array.Copy(savedBoardState, board, savedBoardState.Length);
                 //Testing the current turn combination
                 for (int index = 0; index < 10; index++)
                 {
@@ -45,16 +46,21 @@ namespace KhephriPuzzle
                         continue;
                     }
                 }
-                
+
+                Console.WriteLine("\r\n10 turns simulated:");
+                foreach (int turn in flipOrder) { Console.Write(turn + ","); }
+                Console.WriteLine("\r\n" + turnsToWin);
+                DisplayBoard(board);
+
                 //Generating the next turn combination by iterating through the turn combination backwards, and incrementing by 1 if less than 9
                 //If the tile flipped at the current index is 9, the value is set to 1, and the iteration looks at the previous turn
                 //The tile flipped can't be set to the same tile as the previous turn, as this would be a waste of 2 turns. Loops may still occur at a larger scale (e.g. over 4 turns)
-                for (int index = 9; index >= 0; index--)
+                for (int index = 0; index <= 9; index++)
                 {
                     flipOrder[index] = flipOrder[index] + 1;
                     if (index != 0) { if (flipOrder[index] == flipOrder[index - 1]) { flipOrder[index] = flipOrder[index] + 1; } }
                     //Exits the loop if all permutations have been tested
-                    if (index == 0 && flipOrder[index] == 10) 
+                    if (index == 9 && flipOrder[index] == 10) 
                     { 
                         simulationComplete = true;
                         break;
@@ -66,9 +72,18 @@ namespace KhephriPuzzle
             }
 
             Console.WriteLine(turnsToWin);
-            return flipOrder;
+            foreach (int turn in optimalFlipOrder) { Console.Write(turn); }
+            return optimalFlipOrder;
         }
 
+        static int[] GenerateNewOrder(int[] order)
+        {
+            for (int index = 0; index <= order.Length; index++)
+            {
+
+            }
+            return order;
+        }
 
         //Simuating flipping a tile
         static bool[,] FlipTile(bool[,] board, int Index)
