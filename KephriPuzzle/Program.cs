@@ -1,4 +1,6 @@
 ﻿//This program is used to solve the khephri puzzle in the most optimal way for all layouts
+using static System.Formats.Asn1.AsnWriter;
+
 namespace KhephriPuzzle
 {
     internal class Program
@@ -17,11 +19,12 @@ namespace KhephriPuzzle
         //Simulating all possible 10-turn moves for the current board, and returning the best tile order
         static int[] SimulateGame(bool[,] board)
         {
-            //Creating an array that stores the tiles flipped for each turn
+            //Initializing the variables and their default values needed to begin the simulation
             int[] flipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
             int[] optimalFlipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
             int turnsToWin = 10;
             bool simulationComplete = false;
+            int scope = 0;
             bool[,] savedBoardState = new bool[3, 3];
             Array.Copy(board, savedBoardState, board.Length);
 
@@ -52,22 +55,11 @@ namespace KhephriPuzzle
                 Console.WriteLine("\r\n" + turnsToWin);
                 DisplayBoard(board);
 
-                //Generating the next turn combination by iterating through the turn combination backwards, and incrementing by 1 if less than 9
-                //If the tile flipped at the current index is 9, the value is set to 1, and the iteration looks at the previous turn
-                //The tile flipped can't be set to the same tile as the previous turn, as this would be a waste of 2 turns. Loops may still occur at a larger scale (e.g. over 4 turns)
-                for (int index = 0; index <= 9; index++)
-                {
-                    flipOrder[index] = flipOrder[index] + 1;
-                    if (index != 0) { if (flipOrder[index] == flipOrder[index - 1]) { flipOrder[index] = flipOrder[index] + 1; } }
-                    //Exits the loop if all permutations have been tested
-                    if (index == 9 && flipOrder[index] == 10) 
-                    { 
-                        simulationComplete = true;
-                        break;
-                    }
-                    if (flipOrder[index] > 9) { flipOrder[index] = 1; }
-                    else { break; }
-                }
+                //This while loop is purely for testing. Currently, when going from a scope of 1 to 2, only the [0] index is set to 1. Need to iterate and set all to 1
+                //var newOrderReturn = GenerateNewOrder(flipOrder, scope);
+                do { var newOrderReturn = GenerateNewOrder(flipOrder, scope); scope = newOrderReturn.Item2; } while (true);
+                //flipOrder = newOrderReturn.Item1;
+                //scope = newOrderReturn.Item2;
 
             }
 
@@ -76,13 +68,29 @@ namespace KhephriPuzzle
             return optimalFlipOrder;
         }
 
-        static int[] GenerateNewOrder(int[] order)
+        static (int[], int) GenerateNewOrder(int[] order, int scope)
         {
-            for (int index = 0; index <= order.Length; index++)
+            for (int index = 0; index <= scope; index++)
             {
-
+                if (order[index] < 9) { order[index] = order[index] + 1; break; }
+                else
+                {
+                    //Index at the end of scope is 9, meaning all combinations at current scope have been tested. Increasing scope
+                    if (index == scope)
+                    {
+                        scope++;
+                        for (int revIndex = index; revIndex == 0; revIndex--) { order[index] = 1; }
+                        //Setting the value of the last element in the new scope to 2, as all combinations with 1 will have been tested prior
+                        order[scope] = 2;
+                        break;
+                    }
+                    else
+                    {
+                        order[index] = 1;
+                    }
+                }
             }
-            return order;
+            return (order, scope);
         }
 
         //Simuating flipping a tile
