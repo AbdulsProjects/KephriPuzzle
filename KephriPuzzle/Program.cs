@@ -38,28 +38,12 @@ namespace KhephriPuzzle
                 {
                     //Excecuting the turn, and checking if the win condition has been met
                     board = FlipTile(board, flipOrder[index]);
-                    if (CheckForWin(board))
-                    {
-                        //Checking if the current flip order is more efficient than those tested before, and reassigning the benchmarks if so
-                        if (index + 1 < turnsToWin)
-                        {
-                            turnsToWin = index + 1;
-                            optimalFlipOrder = flipOrder;
-                        }
-                        continue;
-                    }
+                    if (CheckForWin(board)) { return flipOrder; }
                 }
 
-                Console.WriteLine("\r\n10 turns simulated:");
-                foreach (int turn in flipOrder) { Console.Write(turn + ","); }
-                Console.WriteLine("\r\n" + turnsToWin);
-                DisplayBoard(board);
-
-                //This while loop is purely for testing. Currently, when going from a scope of 1 to 2, only the [0] index is set to 1. Need to iterate and set all to 1
-                //var newOrderReturn = GenerateNewOrder(flipOrder, scope);
-                do { var newOrderReturn = GenerateNewOrder(flipOrder, scope); scope = newOrderReturn.Item2; } while (true);
-                //flipOrder = newOrderReturn.Item1;
-                //scope = newOrderReturn.Item2;
+                var newOrderReturn = GenerateNewOrder(flipOrder, scope);
+                flipOrder = newOrderReturn.Item1;
+                scope = newOrderReturn.Item2;
 
             }
 
@@ -72,18 +56,25 @@ namespace KhephriPuzzle
         {
             for (int index = 0; index <= scope; index++)
             {
-                if (order[index] < 9) { order[index] = order[index] + 1; break; }
+                if (order[index] < 9) 
+                { 
+                    order[index] = order[index] + 1; 
+                    if (order[index] == 5) { order[index] = order[index] + 1; }
+                    break;
+                }
                 else
                 {
                     //Index at the end of scope is 9, meaning all combinations at current scope have been tested. Increasing scope
                     if (index == scope)
                     {
+                        //After increasing the scope, the new order will be 1 in all positions, except for the scope, which will be 2
                         scope++;
-                        for (int revIndex = index; revIndex == 0; revIndex--) { order[index] = 1; }
-                        //Setting the value of the last element in the new scope to 2, as all combinations with 1 will have been tested prior
+                        for (int revIndex = index; revIndex >= 0; revIndex--) { order[index] = 1; }
+                        if (scope==10) { break; }
                         order[scope] = 2;
                         break;
                     }
+                    //Index not at the end of scope, setting index to 1 and moving to the next position
                     else
                     {
                         order[index] = 1;
@@ -97,24 +88,24 @@ namespace KhephriPuzzle
         static bool[,] FlipTile(bool[,] board, int Index)
         {
             //Returns early if trying to flip the middle tile
-            if (Index == 4) { return board; }
+            if (Index == 5) { return board; }
             //Converting to xy co-ordinates
             int xIndex = (Index-1) % 3;
             int yIndex = (Index-1) / 3;
 
             //Flipping the correct tiles
-            board[xIndex, yIndex] ^= true;
+            board[yIndex, xIndex] ^= true;
 
             if (yIndex != 1)
             {
-                if (xIndex > 0) { board[xIndex - 1, yIndex] ^= true; }
-                if (xIndex < 2) { board[xIndex + 1, yIndex] ^= true; }
+                if (xIndex > 0) { board[yIndex, xIndex - 1] ^= true; }
+                if (xIndex < 2) { board[yIndex, xIndex + 1] ^= true; }
             }
 
             if (xIndex != 1)
             {
-                if (yIndex > 0) { board[xIndex, yIndex - 1] ^= true; }
-                if (yIndex < 2) { board[xIndex, yIndex + 1] ^= true; }
+                if (yIndex > 0) { board[yIndex - 1, xIndex] ^= true; }
+                if (yIndex < 2) { board[yIndex + 1, xIndex] ^= true; }
             }
             return board;
         }
@@ -141,6 +132,20 @@ namespace KhephriPuzzle
             }
 
             return true;
+        }
+
+        static void Test()
+        {
+            int[] testOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+            int testScope = 0;
+            for (int i = 0; i<1000; i++)
+            {
+                var newOrder = GenerateNewOrder(testOrder, testScope);
+                testScope = newOrder.Item2;
+                foreach (var item in testOrder) { Console.Write(item); }
+                Console.WriteLine();
+
+            }
         }
     }
 }
