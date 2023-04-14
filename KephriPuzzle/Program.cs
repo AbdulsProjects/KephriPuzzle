@@ -8,48 +8,44 @@ namespace KhephriPuzzle
         static void Main(string[] args)
         {
             //Generating the 3x3 board
-            bool[,] board = { { true, true, false }, { true, false, true }, { true, true, true } };
-            int[] bestTurns = SimulateGame(board);
-            foreach (int turn in bestTurns)
+            bool[,] board = { { false, false, false }, { true, false, true }, { false, false, false } };
+            var simulationResults = SimulateGame(board);
+            foreach (int turn in simulationResults.Item2)
             {
                 Console.WriteLine(turn);
             }
         }
 
         //Simulating all possible 10-turn moves for the current board, and returning the best tile order
-        static int[] SimulateGame(bool[,] board)
+        static (bool, int[], int) SimulateGame(bool[,] board)
         {
             //Initializing the variables and their default values needed to begin the simulation
             int[] flipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-            int[] optimalFlipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-            int turnsToWin = 10;
             bool simulationComplete = false;
             int scope = 0;
             bool[,] savedBoardState = new bool[3, 3];
             Array.Copy(board, savedBoardState, board.Length);
 
-            //NEED TO MAKE IT LOOP THROUGH AND CHANGE THE TURN combination
-
             while (!simulationComplete)
             {
+                //Resetting the board state
                 Array.Copy(savedBoardState, board, savedBoardState.Length);
                 //Testing the current turn combination
                 for (int index = 0; index < 10; index++)
                 {
                     //Excecuting the turn, and checking if the win condition has been met
                     board = FlipTile(board, flipOrder[index]);
-                    if (CheckForWin(board)) { return flipOrder; }
+                    if (CheckForWin(board)) { return (true, flipOrder.Take(index+1).ToArray(), index+1); }
                 }
 
                 var newOrderReturn = GenerateNewOrder(flipOrder, scope);
                 flipOrder = newOrderReturn.Item1;
                 scope = newOrderReturn.Item2;
-
+                //All combinations tested
+                if (scope == 10) { Console.WriteLine("Error: No winning turn combination found"); simulationComplete = true; }
             }
 
-            Console.WriteLine(turnsToWin);
-            foreach (int turn in optimalFlipOrder) { Console.Write(turn); }
-            return optimalFlipOrder;
+            return (false, flipOrder, 10);
         }
 
         static (int[], int) GenerateNewOrder(int[] order, int scope)
@@ -132,20 +128,6 @@ namespace KhephriPuzzle
             }
 
             return true;
-        }
-
-        static void Test()
-        {
-            int[] testOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-            int testScope = 0;
-            for (int i = 0; i<1000; i++)
-            {
-                var newOrder = GenerateNewOrder(testOrder, testScope);
-                testScope = newOrder.Item2;
-                foreach (var item in testOrder) { Console.Write(item); }
-                Console.WriteLine();
-
-            }
         }
     }
 }
