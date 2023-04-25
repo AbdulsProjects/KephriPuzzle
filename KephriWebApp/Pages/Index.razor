@@ -2,7 +2,26 @@
 
 <PageTitle>Index</PageTitle>
 
-<div class="text-center body-main">
+<div class="body-main">
 	<h1>Kephri Puzzle Solver</h1>
 	<p style="padding-top: 20px">Click on tiles to flip their default state. Once tiles are set to the right starting position, click on the "Solve Puzzle" button to display the solution.</p>
+	<div class="parent-box">
+		<div class="box-row">
+			<div @onclick="Test" class="child-box left-box flipped-tile"></div>
+			<div class="child-box middle-box"></div>
+			<div class="child-box right-box flipped-tile"></div>
+		</div>
+		<div class="box-row">
+			<div class="child-box left-box"></div>
+			<div class="child-box middle-box opacity-0"></div>
+			<div class="child-box right-box"></div>
+		</div>
+		<div class="box-row">
+			<div class="child-box left-box flipped-tile"></div>
+			<div class="child-box middle-box"></div>
+			<div class="child-box right-box"></div>
+		</div>
+	</div>
+	<button @onclick="Test" type="button" style="margin-top: 20px">Solve Puzzle</button>
 </div>
+
