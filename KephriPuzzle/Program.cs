@@ -1,5 +1,4 @@
 ﻿//This program is used to solve the khephri puzzle in the most optimal way for all layouts
-using static System.Formats.Asn1.AsnWriter;
 
 namespace KhephriPuzzle
 {
