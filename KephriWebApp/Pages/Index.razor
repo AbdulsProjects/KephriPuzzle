@@ -22,6 +22,6 @@
 			<div @onclick="() => ChangeStartState(8)" class="child-box right-box @StateStyle(flippedTiles[8])"></div>
 		</div>
 	</div>
-	<button type="button" style="margin-top: 20px">Solve Puzzle</button>
+	<button type="button" @onclick="returnFlipOrder" style="margin-top: 20px">Solve Puzzle</button>
 </div>
 

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KephriWebApp", "KephriWebApp.csproj", "{3BC20A0B-CAF8-491C-8DD8-CDECC46FF7F5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KephriClassLibrary", "..\KephriLibrary\KephriClassLibrary\KephriClassLibrary.csproj", "{83CD5166-5D77-495C-8AF8-DA3D5AE47645}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3BC20A0B-CAF8-491C-8DD8-CDECC46FF7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BC20A0B-CAF8-491C-8DD8-CDECC46FF7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BC20A0B-CAF8-491C-8DD8-CDECC46FF7F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83CD5166-5D77-495C-8AF8-DA3D5AE47645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83CD5166-5D77-495C-8AF8-DA3D5AE47645}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83CD5166-5D77-495C-8AF8-DA3D5AE47645}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83CD5166-5D77-495C-8AF8-DA3D5AE47645}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

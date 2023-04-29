@@ -1,8 +1,6 @@
-﻿//This program is used to solve the khephri puzzle in the most optimal way for all layouts
-
-namespace KhephriPuzzle
+﻿namespace KephriClassLibrary
 {
-    public class Program
+    public static class LibraryProgram
     {
         //Simulating all possible 10-turn moves for the current board, and returning the best tile order
         public static (bool, int[], int) SimulateGame(bool[,] board)
@@ -23,7 +21,7 @@ namespace KhephriPuzzle
                 {
                     //Excecuting the turn, and checking if the win condition has been met
                     board = FlipTile(board, flipOrder[index]);
-                    if (CheckForWin(board)) { return (true, flipOrder.Take(index+1).ToArray(), index+1); }
+                    if (CheckForWin(board)) { return (true, flipOrder.Take(index + 1).ToArray(), index + 1); }
                 }
 
                 var newOrderReturn = GenerateNewOrder(flipOrder, scope);
@@ -40,9 +38,9 @@ namespace KhephriPuzzle
         {
             for (int index = 0; index <= scope; index++)
             {
-                if (order[index] < 9) 
-                { 
-                    order[index] = order[index] + 1; 
+                if (order[index] < 9)
+                {
+                    order[index] = order[index] + 1;
                     if (order[index] == 5) { order[index] = order[index] + 1; }
                     break;
                 }
@@ -54,7 +52,7 @@ namespace KhephriPuzzle
                         //After increasing the scope, the new order will be 1 in all positions, except for the scope, which will be 2
                         scope++;
                         for (int revIndex = index; revIndex >= 0; revIndex--) { order[index] = 1; }
-                        if (scope==10) { break; }
+                        if (scope == 10) { break; }
                         order[scope] = 2;
                         break;
                     }
@@ -74,8 +72,8 @@ namespace KhephriPuzzle
             //Returns early if trying to flip the middle tile
             if (Index == 5) { return board; }
             //Converting to xy co-ordinates
-            int xIndex = (Index-1) % 3;
-            int yIndex = (Index-1) / 3;
+            int xIndex = (Index - 1) % 3;
+            int yIndex = (Index - 1) / 3;
 
             //Flipping the correct tiles
             board[yIndex, xIndex] ^= true;
@@ -107,7 +105,7 @@ namespace KhephriPuzzle
         static bool CheckForWin(bool[,] board)
         {
             for (int xIndex = 0; xIndex < 3; xIndex++)
-            { 
+            {
                 for (int yIndex = 0; yIndex < 3; yIndex++)
                 {
                     if (xIndex == 1 && yIndex == 1) { continue; }
