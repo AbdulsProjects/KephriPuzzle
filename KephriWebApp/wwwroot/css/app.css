@@ -104,6 +104,6 @@ a, .btn-link {
     background-color: yellow;
 }
 
-.tile-to-flip{
+.requires-flip{
     border: 5px solid red;
 }

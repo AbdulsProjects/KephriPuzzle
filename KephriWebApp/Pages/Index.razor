@@ -7,19 +7,19 @@
 	<p style="padding-top: 20px">Click on tiles to flip their default state. Once tiles are set to the right starting position, click on the "Solve Puzzle" button to display the solution.</p>
 	<div class="parent-box">
 		<div class="box-row">
-			<div @onclick="() => ChangeStartState(0)" class="child-box left-box @StateStyle(flippedTiles[0])"></div>
-			<div @onclick="() => ChangeStartState(1)" class=" child-box middle-box @StateStyle(flippedTiles[1])"></div>
-			<div @onclick="() => ChangeStartState(2)" class="child-box right-box @StateStyle(flippedTiles[2])"></div>
+			<div @onclick="() => ChangeStartState(0)" class="child-box left-box @StateStyle(flippedTiles[0]) @BorderStyle(solvedFlipOrder[0])"></div>
+			<div @onclick="() => ChangeStartState(1)" class=" child-box middle-box @StateStyle(flippedTiles[1]) @BorderStyle(solvedFlipOrder[1])"></div>
+			<div @onclick="() => ChangeStartState(2)" class="child-box right-box @StateStyle(flippedTiles[2]) @BorderStyle(solvedFlipOrder[2])"></div>
 		</div>
 		<div class="box-row">
-			<div @onclick="() => ChangeStartState(3)" class="child-box left-box @StateStyle(flippedTiles[3])"></div>
+			<div @onclick="() => ChangeStartState(3)" class="child-box left-box @StateStyle(flippedTiles[3]) @BorderStyle(solvedFlipOrder[3])"></div>
 			<div class="child-box middle-box opacity-0"></div>
-			<div @onclick="() => ChangeStartState(5) " class="child-box right-box @StateStyle(flippedTiles[5])"></div>
+			<div @onclick="() => ChangeStartState(5) " class="child-box right-box @StateStyle(flippedTiles[5]) @BorderStyle(solvedFlipOrder[5])"></div>
 		</div>
 		<div class="box-row">
-			<div @onclick="() => ChangeStartState(6)" class="child-box left-box @StateStyle(flippedTiles[6])"></div>
-			<div @onclick="() => ChangeStartState(7)" class="child-box middle-box @StateStyle(flippedTiles[7])"></div>
-			<div @onclick="() => ChangeStartState(8)" class="child-box right-box @StateStyle(flippedTiles[8])"></div>
+			<div @onclick="() => ChangeStartState(6)" class="child-box left-box @StateStyle(flippedTiles[6]) @BorderStyle(solvedFlipOrder[6])"></div>
+			<div @onclick="() => ChangeStartState(7)" class="child-box middle-box @StateStyle(flippedTiles[7]) @BorderStyle(solvedFlipOrder[7])"></div>
+			<div @onclick="() => ChangeStartState(8)" class="child-box right-box @StateStyle(flippedTiles[8]) @BorderStyle(solvedFlipOrder[8])"></div>
 		</div>
 	</div>
 	<button type="button" @onclick="returnFlipOrder" style="margin-top: 20px">Solve Puzzle</button>
