@@ -1,5 +1,6 @@
 using KephriClassLibrary;
 using System.Runtime.CompilerServices;
+using System.Xml;
 
 namespace KephriWebApp.Pages
 {
@@ -34,10 +35,12 @@ namespace KephriWebApp.Pages
             //Resetting the solved array
             for (int i = 0; i < solvedFlipOrder.Length; ++i) { solvedFlipOrder[i] = false; }
 
-            int[] returnedFlipOder = LibraryProgram.SimulateGame(formattedFlippedTiles).Item2;
+            //Exits the method early if no solution was found, as this means all tiles were already flipped by the user
+            var fullReturn = LibraryProgram.SimulateGame(formattedFlippedTiles);
+            if (!fullReturn.Item1) { return; }
 
             //Converting the solvedFlipOrder into a single dimension array for use in the UI 
-            foreach (int value in returnedFlipOder) { solvedFlipOrder[value-1] = true; }
+            foreach (int value in fullReturn.Item2) { solvedFlipOrder[value-1] = true; }
         }
     }
 }

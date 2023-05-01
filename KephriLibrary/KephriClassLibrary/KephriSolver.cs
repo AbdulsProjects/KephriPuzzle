@@ -2,9 +2,11 @@
 {
     public static class LibraryProgram
     {
-        //Simulating all possible 10-turn moves for the current board, and returning the best tile order
-        public static (bool, int[], int) SimulateGame(bool[,] board)
+        //Simulating all possible 10-turn moves for the current board. 1st return identifies if a solution was found, 2nd return is the solution as an array
+        public static (bool, int[]) SimulateGame(bool[,] board)
         {
+            //Returns 0 if the entire board is already flipped
+            if (CheckForWin(board)) { return (false, new int[] { 0 }); }
             //Initializing the variables and their default values needed to begin the simulation
             int[] flipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
             bool simulationComplete = false;
@@ -21,7 +23,7 @@
                 {
                     //Excecuting the turn, and checking if the win condition has been met
                     board = FlipTile(board, flipOrder[index]);
-                    if (CheckForWin(board)) { return (true, flipOrder.Take(index + 1).ToArray(), index + 1); }
+                    if (CheckForWin(board)) { return (true, flipOrder.Take(index + 1).ToArray()); }
                 }
 
                 var newOrderReturn = GenerateNewOrder(flipOrder, scope);
@@ -31,7 +33,7 @@
                 if (scope == 10) { Console.WriteLine("Error: No winning turn combination found"); simulationComplete = true; }
             }
 
-            return (false, flipOrder, 10);
+            return (false, flipOrder);
         }
 
         static (int[], int) GenerateNewOrder(int[] order, int scope)
