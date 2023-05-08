@@ -8,10 +8,13 @@ namespace KephriWebApp.Pages
     {
         private bool[] flippedTiles = { false, false, false, false, false, false, false, false, false };
         private bool[] solvedFlipOrder = { false, false, false, false, false, false, false, false, false };
+        private bool mode;
 
         //Allowing the user to flip tiles
         private void ChangeStartState(int index)
         {
+            //The below line will be used to toggle the mode that the user is in. Disabled until issue #7 is actioned
+            //if (mode) { LibraryProgram.FlipTile(flippedTiles, index) }
             flippedTiles[index] ^= true;
         }
 

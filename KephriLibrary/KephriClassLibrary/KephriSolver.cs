@@ -69,7 +69,7 @@
         }
 
         //Simuating flipping a tile
-        static bool[,] FlipTile(bool[,] board, int Index)
+        static public bool[,] FlipTile(bool[,] board, int Index)
         {
             //Returns early if trying to flip the middle tile
             if (Index == 5) { return board; }
