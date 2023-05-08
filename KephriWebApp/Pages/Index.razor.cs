@@ -34,14 +34,12 @@ namespace KephriWebApp.Pages
 
         private void returnFlipOrder()
         {
-            bool[,] formattedFlippedTiles = { { flippedTiles[0], flippedTiles[1], flippedTiles[2] }, { flippedTiles[3], flippedTiles[4], flippedTiles[5] }, { flippedTiles[6], flippedTiles[7], flippedTiles[8] } };
             //Resetting the solved array
             for (int i = 0; i < solvedFlipOrder.Length; ++i) { solvedFlipOrder[i] = false; }
 
             //Exits the method early if no solution was found, as this means all tiles were already flipped by the user
-            var fullReturn = LibraryProgram.SimulateGame(formattedFlippedTiles);
+            var fullReturn = LibraryProgram.SimulateGame(flippedTiles);
             if (!fullReturn.Item1) { return; }
-
             //Converting the solvedFlipOrder into a single dimension array for use in the UI 
             foreach (int value in fullReturn.Item2) { solvedFlipOrder[value-1] = true; }
         }

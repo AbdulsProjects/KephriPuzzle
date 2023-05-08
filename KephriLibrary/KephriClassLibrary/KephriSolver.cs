@@ -3,7 +3,7 @@
     public static class LibraryProgram
     {
         //Simulating all possible 10-turn moves for the current board. 1st return identifies if a solution was found, 2nd return is the solution as an array
-        public static (bool, int[]) SimulateGame(bool[,] board)
+        public static (bool, int[]) SimulateGame(bool[] board)
         {
             //Returns 0 if the entire board is already flipped
             if (CheckForWin(board)) { return (false, new int[] { 0 }); }
@@ -11,7 +11,7 @@
             int[] flipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
             bool simulationComplete = false;
             int scope = 0;
-            bool[,] savedBoardState = new bool[3, 3];
+            bool[] savedBoardState = new bool[9];
             Array.Copy(board, savedBoardState, board.Length);
 
             while (!simulationComplete)
@@ -30,7 +30,7 @@
                 flipOrder = newOrderReturn.Item1;
                 scope = newOrderReturn.Item2;
                 //All combinations tested
-                if (scope == 10) { Console.WriteLine("Error: No winning turn combination found"); simulationComplete = true; }
+                if (scope == 10) { simulationComplete = true; }
             }
 
             return (false, flipOrder);
@@ -69,52 +69,25 @@
         }
 
         //Simuating flipping a tile
-        static public bool[,] FlipTile(bool[,] board, int Index)
+        static public bool[] FlipTile(bool[] board, int Index)
         {
             //Returns early if trying to flip the middle tile
             if (Index == 5) { return board; }
-            //Converting to xy co-ordinates
-            int xIndex = (Index - 1) % 3;
-            int yIndex = (Index - 1) / 3;
 
             //Flipping the correct tiles
-            board[yIndex, xIndex] ^= true;
-
-            if (yIndex != 1)
-            {
-                if (xIndex > 0) { board[yIndex, xIndex - 1] ^= true; }
-                if (xIndex < 2) { board[yIndex, xIndex + 1] ^= true; }
-            }
-
-            if (xIndex != 1)
-            {
-                if (yIndex > 0) { board[yIndex - 1, xIndex] ^= true; }
-                if (yIndex < 2) { board[yIndex + 1, xIndex] ^= true; }
-            }
+            board[Index] ^= true;
+            if (Index < board.Length) { board[Index+1] ^= true; }
+            if (Index != 0) { board[Index-1] ^= true; }
             return board;
         }
 
-        //Displaying the board as a 3x3 grid
-        static void DisplayBoard(bool[,] board)
-        {
-            for (int index = 0; index < 3; index++)
-            {
-                Console.WriteLine(Convert.ToString(board[0, index]) + Convert.ToString(board[1, index]) + Convert.ToString(board[2, index]));
-            }
-        }
-
         //Indentifying if the win condition has been met
-        static bool CheckForWin(bool[,] board)
+        static bool CheckForWin(bool[] board)
         {
-            for (int xIndex = 0; xIndex < 3; xIndex++)
+            for (int index = 0; index < board.Length; index++)
             {
-                for (int yIndex = 0; yIndex < 3; yIndex++)
-                {
-                    if (xIndex == 1 && yIndex == 1) { continue; }
-                    if (!board[xIndex, yIndex]) { return false; }
-                }
+                if (!board[index]) { return false; }
             }
-
             return true;
         }
     }
