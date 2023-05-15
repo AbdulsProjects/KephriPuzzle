@@ -41,7 +41,7 @@ namespace KephriWebApp.Pages
             var fullReturn = LibraryProgram.SimulateGame(flippedTiles);
             if (!fullReturn.Item1) { return; }
             //Converting the solvedFlipOrder into a single dimension array for use in the UI 
-            foreach (int value in fullReturn.Item2) { solvedFlipOrder[value-1] = true; }
+            foreach (int value in fullReturn.Item2) { solvedFlipOrder[value] = true; }
         }
     }
 }

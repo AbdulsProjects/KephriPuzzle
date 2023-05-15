@@ -8,7 +8,7 @@
             //Returns 0 if the entire board is already flipped
             if (CheckForWin(board)) { return (false, new int[] { 0 }); }
             //Initializing the variables and their default values needed to begin the simulation
-            int[] flipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+            int[] flipOrder = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             bool simulationComplete = false;
             int scope = 0;
             bool[] savedBoardState = new bool[9];
@@ -40,28 +40,28 @@
         {
             for (int index = 0; index <= scope; index++)
             {
-                if (order[index] < 9)
+                if (order[index] < 8)
                 {
                     order[index] = order[index] + 1;
-                    if (order[index] == 5) { order[index] = order[index] + 1; }
+                    if (order[index] == 4) { order[index] = order[index] + 1; }
                     break;
                 }
                 else
                 {
-                    //Index at the end of scope is 9, meaning all combinations at current scope have been tested. Increasing scope
+                    //Index at the end of scope is 8, meaning all combinations at current scope have been tested. Increasing scope
                     if (index == scope)
                     {
                         //After increasing the scope, the new order will be 1 in all positions, except for the scope, which will be 2
                         scope++;
-                        for (int revIndex = index; revIndex >= 0; revIndex--) { order[index] = 1; }
-                        if (scope == 10) { break; }
+                        for (int revIndex = index; revIndex >= 0; revIndex--) { order[index] = 0; }
+                        if (scope == 9) { break; }
                         order[scope] = 2;
                         break;
                     }
                     //Index not at the end of scope, setting index to 1 and moving to the next position
                     else
                     {
-                        order[index] = 1;
+                        order[index] = 0;
                     }
                 }
             }
@@ -69,15 +69,27 @@
         }
 
         //Simuating flipping a tile
-        static public bool[] FlipTile(bool[] board, int Index)
+        static public bool[] FlipTile(bool[] board, int index)
         {
             //Returns early if trying to flip the middle tile
-            if (Index == 5) { return board; }
+            if (index == 4) { return board; }
 
             //Flipping the correct tiles
-            board[Index] ^= true;
-            if (Index < board.Length) { board[Index+1] ^= true; }
-            if (Index != 0) { board[Index-1] ^= true; }
+            board[index] ^= true;
+            //Middle Column
+            if((index + 1) % 3 == 2)
+            {
+                board[index + 1] ^= true;
+                board[index - 1] ^= true;
+				return board;
+			}
+            //Far right column
+            if((index + 1) % 3 == 0) { board[index - 1] ^= true;}
+            //Far left column
+            if((index + 1) % 3 == 1) { board[index + 1] ^= true;}
+            //Both Columns
+            if((index + 3) < board.Length) { board[index + 3] ^= true;}
+			if ((index - 3) >= 0) { board[index - 3] ^= true; }
             return board;
         }
 
@@ -86,6 +98,8 @@
         {
             for (int index = 0; index < board.Length; index++)
             {
+                //4th index is skipped as this is the middle invisible tile
+                if (index == 4) { continue; }
                 if (!board[index]) { return false; }
             }
             return true;
