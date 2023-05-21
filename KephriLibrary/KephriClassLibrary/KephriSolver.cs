@@ -3,15 +3,15 @@
     public static class LibraryProgram
     {
         //Simulating all possible 10-turn moves for the current board. 1st return identifies if a solution was found, 2nd return is the solution as an array
-        public static (bool, int[]) SimulateGame(bool[,] board)
+        public static (bool, int[]) SimulateGame(bool[] board)
         {
             //Returns 0 if the entire board is already flipped
             if (CheckForWin(board)) { return (false, new int[] { 0 }); }
             //Initializing the variables and their default values needed to begin the simulation
-            int[] flipOrder = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+            int[] flipOrder = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             bool simulationComplete = false;
             int scope = 0;
-            bool[,] savedBoardState = new bool[3, 3];
+            bool[] savedBoardState = new bool[9];
             Array.Copy(board, savedBoardState, board.Length);
 
             while (!simulationComplete)
@@ -30,7 +30,7 @@
                 flipOrder = newOrderReturn.Item1;
                 scope = newOrderReturn.Item2;
                 //All combinations tested
-                if (scope == 10) { Console.WriteLine("Error: No winning turn combination found"); simulationComplete = true; }
+                if (scope == 10) { simulationComplete = true; }
             }
 
             return (false, flipOrder);
@@ -40,28 +40,28 @@
         {
             for (int index = 0; index <= scope; index++)
             {
-                if (order[index] < 9)
+                if (order[index] < 8)
                 {
                     order[index] = order[index] + 1;
-                    if (order[index] == 5) { order[index] = order[index] + 1; }
+                    if (order[index] == 4) { order[index] = order[index] + 1; }
                     break;
                 }
                 else
                 {
-                    //Index at the end of scope is 9, meaning all combinations at current scope have been tested. Increasing scope
+                    //Index at the end of scope is 8, meaning all combinations at current scope have been tested. Increasing scope
                     if (index == scope)
                     {
                         //After increasing the scope, the new order will be 1 in all positions, except for the scope, which will be 2
                         scope++;
-                        for (int revIndex = index; revIndex >= 0; revIndex--) { order[index] = 1; }
-                        if (scope == 10) { break; }
+                        for (int revIndex = index; revIndex >= 0; revIndex--) { order[index] = 0; }
+                        if (scope == 9) { break; }
                         order[scope] = 2;
                         break;
                     }
                     //Index not at the end of scope, setting index to 1 and moving to the next position
                     else
                     {
-                        order[index] = 1;
+                        order[index] = 0;
                     }
                 }
             }
@@ -69,52 +69,39 @@
         }
 
         //Simuating flipping a tile
-        static public bool[,] FlipTile(bool[,] board, int Index)
+        static public bool[] FlipTile(bool[] board, int index)
         {
             //Returns early if trying to flip the middle tile
-            if (Index == 5) { return board; }
-            //Converting to xy co-ordinates
-            int xIndex = (Index - 1) % 3;
-            int yIndex = (Index - 1) / 3;
+            if (index == 4) { return board; }
 
             //Flipping the correct tiles
-            board[yIndex, xIndex] ^= true;
-
-            if (yIndex != 1)
+            board[index] ^= true;
+            //Middle Column
+            if((index + 1) % 3 == 2)
             {
-                if (xIndex > 0) { board[yIndex, xIndex - 1] ^= true; }
-                if (xIndex < 2) { board[yIndex, xIndex + 1] ^= true; }
-            }
-
-            if (xIndex != 1)
-            {
-                if (yIndex > 0) { board[yIndex - 1, xIndex] ^= true; }
-                if (yIndex < 2) { board[yIndex + 1, xIndex] ^= true; }
-            }
+                board[index + 1] ^= true;
+                board[index - 1] ^= true;
+				return board;
+			}
+            //Far right column
+            if((index + 1) % 3 == 0) { board[index - 1] ^= true;}
+            //Far left column
+            if((index + 1) % 3 == 1) { board[index + 1] ^= true;}
+            //Both Columns
+            if((index + 3) < board.Length) { board[index + 3] ^= true;}
+			if ((index - 3) >= 0) { board[index - 3] ^= true; }
             return board;
         }
 
-        //Displaying the board as a 3x3 grid
-        static void DisplayBoard(bool[,] board)
-        {
-            for (int index = 0; index < 3; index++)
-            {
-                Console.WriteLine(Convert.ToString(board[0, index]) + Convert.ToString(board[1, index]) + Convert.ToString(board[2, index]));
-            }
-        }
-
         //Indentifying if the win condition has been met
-        static bool CheckForWin(bool[,] board)
+        static bool CheckForWin(bool[] board)
         {
-            for (int xIndex = 0; xIndex < 3; xIndex++)
+            for (int index = 0; index < board.Length; index++)
             {
-                for (int yIndex = 0; yIndex < 3; yIndex++)
-                {
-                    if (xIndex == 1 && yIndex == 1) { continue; }
-                    if (!board[xIndex, yIndex]) { return false; }
-                }
+                //4th index is skipped as this is the middle invisible tile
+                if (index == 4) { continue; }
+                if (!board[index]) { return false; }
             }
-
             return true;
         }
     }
