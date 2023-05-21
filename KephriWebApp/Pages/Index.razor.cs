@@ -13,8 +13,8 @@ namespace KephriWebApp.Pages
         //Allowing the user to flip tiles
         private void ChangeStartState(int index)
         {
-            //The below line will be used to toggle the mode that the user is in. Disabled until issue #7 is actioned
-            //if (mode) { LibraryProgram.FlipTile(flippedTiles, index) }
+            //Toggles the correct tiles based on the mode active
+            if (mode) { LibraryProgram.FlipTile(flippedTiles, index); return; }
             flippedTiles[index] ^= true;
         }
 
@@ -37,8 +37,12 @@ namespace KephriWebApp.Pages
             //Resetting the solved array
             for (int i = 0; i < solvedFlipOrder.Length; ++i) { solvedFlipOrder[i] = false; }
 
-            //Exits the method early if no solution was found, as this means all tiles were already flipped by the user
-            var fullReturn = LibraryProgram.SimulateGame(flippedTiles);
+            //Creating a copy of the board state as the SimulateGame method changes the state of the tiles passed
+            bool[] flippedTilesCopy = new bool[9];
+			Array.Copy(flippedTiles, flippedTilesCopy, flippedTiles.Length);
+
+			//Exits the method early if no solution was found, as this means all tiles were already flipped by the user
+			var fullReturn = LibraryProgram.SimulateGame(flippedTilesCopy);
             if (!fullReturn.Item1) { return; }
             //Converting the solvedFlipOrder into a single dimension array for use in the UI 
             foreach (int value in fullReturn.Item2) { solvedFlipOrder[value] = true; }
