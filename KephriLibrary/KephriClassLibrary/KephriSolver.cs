@@ -10,7 +10,7 @@
             //Initializing the variables and their default values needed to begin the simulation
             int[] flipOrder = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             bool simulationComplete = false;
-            int scope = 0;
+            int scope = 1;
             bool[] savedBoardState = new bool[9];
             Array.Copy(board, savedBoardState, board.Length);
 
@@ -26,9 +26,19 @@
                     if (CheckForWin(board)) { return (true, flipOrder.Take(index + 1).ToArray()); }
                 }
 
-                var newOrderReturn = GenerateNewOrder(flipOrder, scope);
-                flipOrder = newOrderReturn.Item1;
-                scope = newOrderReturn.Item2;
+                //Generating the new flip order. Orders with duplicates are skipped to reduce runtime
+                bool duplicatesInOrder = true;
+                do
+                {
+                    var newOrderReturn = GenerateNewOrder(flipOrder, scope);
+                    flipOrder = newOrderReturn.Item1;
+                    scope = newOrderReturn.Item2;
+                    //Testimg if the new flip order has duplicates
+                    int[] scopedFlipOrder = new int[scope + 1];
+                    Array.Copy(flipOrder, scopedFlipOrder, scopedFlipOrder.Length);
+                    if (scopedFlipOrder.Length == flipOrder.Distinct().Count()) { duplicatesInOrder = false; }
+                } while (duplicatesInOrder);
+
                 //All combinations tested
                 if (scope == 10) { simulationComplete = true; }
             }
