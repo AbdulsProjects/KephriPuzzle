@@ -10,7 +10,7 @@
             //Initializing the variables and their default values needed to begin the simulation
             int[] flipOrder = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             bool simulationComplete = false;
-            int scope = 1;
+            int scope = 0;
             bool[] savedBoardState = new bool[9];
             Array.Copy(board, savedBoardState, board.Length);
 
@@ -35,12 +35,13 @@
                     scope = newOrderReturn.Item2;
                     //Testimg if the new flip order has duplicates
                     int[] scopedFlipOrder = new int[scope + 1];
-                    Array.Copy(flipOrder, scopedFlipOrder, scopedFlipOrder.Length);
-                    if (scopedFlipOrder.Length == flipOrder.Distinct().Count()) { duplicatesInOrder = false; }
-                } while (duplicatesInOrder);
+					Array.Copy(flipOrder, scopedFlipOrder, scopedFlipOrder.Length);
+                    if (scopedFlipOrder.Length == scopedFlipOrder.Distinct().Count()) { duplicatesInOrder = false; }
+
+				} while (duplicatesInOrder);
 
                 //All combinations tested
-                if (scope == 10) { simulationComplete = true; }
+                if (scope == 9) { simulationComplete = true; }
             }
 
             return (false, flipOrder);
@@ -65,7 +66,7 @@
                         scope++;
                         for (int revIndex = index; revIndex >= 0; revIndex--) { order[index] = 0; }
                         if (scope == 9) { break; }
-                        order[scope] = 2;
+                        order[scope] = 1;
                         break;
                     }
                     //Index not at the end of scope, setting index to 1 and moving to the next position
