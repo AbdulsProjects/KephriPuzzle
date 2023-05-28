@@ -26,11 +26,22 @@
                     if (CheckForWin(board)) { return (true, flipOrder.Take(index + 1).ToArray()); }
                 }
 
-                var newOrderReturn = GenerateNewOrder(flipOrder, scope);
-                flipOrder = newOrderReturn.Item1;
-                scope = newOrderReturn.Item2;
+                //Generating the new flip order. Orders with duplicates are skipped to reduce runtime
+                bool duplicatesInOrder = true;
+                do
+                {
+                    var newOrderReturn = GenerateNewOrder(flipOrder, scope);
+                    flipOrder = newOrderReturn.Item1;
+                    scope = newOrderReturn.Item2;
+                    //Testimg if the new flip order has duplicates
+                    int[] scopedFlipOrder = new int[scope + 1];
+					Array.Copy(flipOrder, scopedFlipOrder, scopedFlipOrder.Length);
+                    if (scopedFlipOrder.Length == scopedFlipOrder.Distinct().Count()) { duplicatesInOrder = false; }
+
+				} while (duplicatesInOrder);
+
                 //All combinations tested
-                if (scope == 10) { simulationComplete = true; }
+                if (scope == 9) { simulationComplete = true; }
             }
 
             return (false, flipOrder);
@@ -55,7 +66,7 @@
                         scope++;
                         for (int revIndex = index; revIndex >= 0; revIndex--) { order[index] = 0; }
                         if (scope == 9) { break; }
-                        order[scope] = 2;
+                        order[scope] = 1;
                         break;
                     }
                     //Index not at the end of scope, setting index to 1 and moving to the next position
