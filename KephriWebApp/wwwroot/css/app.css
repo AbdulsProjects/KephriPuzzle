@@ -5,6 +5,10 @@ html, body {
     background-color: #c0a886;
 }
 
+h1{
+    text-align: center;
+}
+
 h1:focus {
     outline: none;
 }
@@ -69,7 +73,7 @@ a, .btn-link {
     height: 100%;
     width: 100%;
     margin: auto;
-    text-align: center;
+    text-align: left;
     padding: 25px;
 }
 

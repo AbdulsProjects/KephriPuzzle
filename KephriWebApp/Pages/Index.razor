@@ -1,9 +1,17 @@
 ﻿@page "/"
-
-<PageTitle>Index</PageTitle>
+<HeadContent>
+<PageTitle>Kephri Puzzle Solver</PageTitle>
+	<link rel="icon" type="image/jpg" href="/Images/Test.jpg" />
+	@*CANT USE JPG?*@
+</HeadContent>
 
 <div class="body-main">
 	<h1>Kephri Puzzle Solver</h1>
+	<hr />
+	<h3>About</h3>
+	<p>This page can be used to solve the <abbr title="Old School RuneScape">OSRS</abbr> Kephri tile flip puzzle found in 
+		<abbr title="Tombs of Amascut"><a href="https://oldschool.runescape.wiki/w/Tombs_of_Amascut">TOA</a></abbr>.
+	</p>
 	<p style="padding-top: 20px">Click on tiles to flip their default state. Once tiles are set to the right starting position, click on the "Solve Puzzle" button to display the solution.</p>
 	<div class="parent-box">
 		<div class="box-row">
@@ -22,9 +30,11 @@
 			<div @onclick="() => ChangeStartState(8)" class="child-box right-box @StateStyle(flippedTiles[8]) @BorderStyle(solvedFlipOrder[8])"></div>
 		</div>
 	</div>
-	<button type="button" @onclick="returnFlipOrder" style="margin-top: 20px">Solve Puzzle</button>
-	<br />
-	<input type="checkbox" name="current_mode" id="mode" style="margin-top: 20px" @bind="mode"/>
-	<label for="mode">Swap Mode</label>
+	<div style="text-align: center">
+		<button type="button" @onclick="returnFlipOrder" style="margin-top: 20px">Solve Puzzle</button>
+		<br />
+		<input type="checkbox" name="current_mode" id="mode" style="margin-top: 20px" @bind="mode"/>
+		<label for="mode">Swap Mode</label>
+	</div>
 </div>
 

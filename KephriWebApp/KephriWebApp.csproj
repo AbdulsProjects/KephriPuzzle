@@ -15,4 +15,8 @@
     <ProjectReference Include="..\KephriLibrary\KephriClassLibrary\KephriClassLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
+
 </Project>
