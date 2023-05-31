@@ -9,12 +9,17 @@ h1{
     text-align: center;
 }
 
+h5{
+    margin-top: 40px
+}
+
 h1:focus {
     outline: none;
 }
 
 a, .btn-link {
     color: #0071c1;
+    font-style: italic;
 }
 
 .btn-primary {
