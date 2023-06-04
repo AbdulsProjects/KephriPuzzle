@@ -116,3 +116,14 @@ a, .btn-link {
 .requires-flip{
     border: 5px solid red;
 }
+
+.loading-popup{
+    border-radius: 2em;
+    width: 400px;
+    height: 4em;
+    background: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

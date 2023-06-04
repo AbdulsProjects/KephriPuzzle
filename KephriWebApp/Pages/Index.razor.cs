@@ -9,6 +9,7 @@ namespace KephriWebApp.Pages
         private bool[] flippedTiles = { false, false, false, false, false, false, false, false, false };
         private bool[] solvedFlipOrder = { false, false, false, false, false, false, false, false, false };
         private bool mode;
+        private bool loading = false;
 
         //Allowing the user to flip tiles
         private void ChangeStartState(int index)
@@ -34,6 +35,7 @@ namespace KephriWebApp.Pages
 
         private void returnFlipOrder()
         {
+            loading = true;
             //Resetting the solved array
             for (int i = 0; i < solvedFlipOrder.Length; ++i) { solvedFlipOrder[i] = false; }
 
@@ -46,6 +48,8 @@ namespace KephriWebApp.Pages
             if (!fullReturn.Item1) { return; }
             //Converting the solvedFlipOrder into a single dimension array for use in the UI 
             foreach (int value in fullReturn.Item2) { solvedFlipOrder[value] = true; }
+            
+            //loading = false;
         }
     }
 }

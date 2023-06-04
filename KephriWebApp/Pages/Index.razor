@@ -10,10 +10,11 @@
 	<br />
 	<h3>About</h3>
 	<p>This page can be used to solve the <abbr title="Old School RuneScape">OSRS</abbr> Kephri tile flip puzzle found in 
-		<abbr title="Tombs of Amascut"><a href="https://oldschool.runescape.wiki/w/Tombs_of_Amascut">TOA</a></abbr>.
+		<abbr title="Tombs of Amascut"><a href="https://oldschool.runescape.wiki/w/Tombs_of_Amascut" target="_blank">TOA</a></abbr>.
 	</p>
 	<h5>How the Puzzle Works</h5>
-	<p>The Kephri puzzle is a rendition of the <a href="https://en.wikipedia.org/wiki/Lights_Out_(game)">Lights Out</a> puzzle released in 1995. The goal of the puzzle is to light up all tiles. 
+	<p>
+		The Kephri puzzle is a rendition of the <a href="https://en.wikipedia.org/wiki/Lights_Out_(game)" target="_blank">Lights Out</a> puzzle released in 1995. The goal of the puzzle is to light up all tiles.
 		When entering the room, a semi-random assortment of tiles will be lit up. A tile can be lit / unlit by stepping on it, but doing so also flips the state of all adjacent tiles.</p>
 	<h5>How the Puzzle Solver Works</h5>
 	<p>This puzzle solver can be used to determine what tiles need to be stepped on to successfully complete the puzzle. To use the puzzle solver, you must: 
@@ -53,6 +54,12 @@
 	</div>
 	<div style="text-align: center">
 		<button type="button" @onclick="returnFlipOrder" style="margin-top: 20px">Solve Puzzle</button>
+		@if (loading)
+		{
+			<div class="loading-popup">
+				<p>Loading...</p>
+			</div>
+		}
 		<br />
 		<input type="checkbox" name="current_mode" id="mode" style="margin-top: 20px" @bind="mode"/>
 		<label for="mode">Standard Mode</label>
