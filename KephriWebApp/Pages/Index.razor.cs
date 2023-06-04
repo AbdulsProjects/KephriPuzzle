@@ -49,7 +49,7 @@ namespace KephriWebApp.Pages
             //Converting the solvedFlipOrder into a single dimension array for use in the UI 
             foreach (int value in fullReturn.Item2) { solvedFlipOrder[value] = true; }
             
-            //loading = false;
+            loading = false;
         }
     }
 }
