@@ -56,8 +56,10 @@
 		<button type="button" @onclick="returnFlipOrder" style="margin-top: 20px">Solve Puzzle</button>
 		@if (loading)
 		{
-			<div class="loading-popup">
-				<p>Loading...</p>
+			<div class="loading-popup" style="background-color:#917e63">
+				<div class="loading-fill">
+					<p class="loading-text">Calculating Solution...</p>
+				</div>
 			</div>
 		}
 		<br />

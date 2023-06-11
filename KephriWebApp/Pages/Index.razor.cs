@@ -1,6 +1,4 @@
 using KephriClassLibrary;
-using System.Runtime.CompilerServices;
-using System.Xml;
 
 namespace KephriWebApp.Pages
 {
@@ -33,9 +31,13 @@ namespace KephriWebApp.Pages
             return "";
         }
 
-        private void returnFlipOrder()
+        private async void returnFlipOrder()
         {
+            //Displaying the loading bar
             loading = true;
+            //This delay is needed to allow the rerender to not be blocked by this thread
+            await Task.Delay(50);
+            
             //Resetting the solved array
             for (int i = 0; i < solvedFlipOrder.Length; ++i) { solvedFlipOrder[i] = false; }
 
@@ -50,6 +52,7 @@ namespace KephriWebApp.Pages
             foreach (int value in fullReturn.Item2) { solvedFlipOrder[value] = true; }
             
             loading = false;
+            StateHasChanged();
         }
     }
 }

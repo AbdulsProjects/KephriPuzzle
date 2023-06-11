@@ -117,13 +117,32 @@ a, .btn-link {
     border: 5px solid red;
 }
 
-.loading-popup{
+.loading-popup {
     border-radius: 2em;
     width: 400px;
     height: 4em;
-    background: white;
+    background-color: #917e63;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border: solid;
+    border-width: 1px;
+}
+
+.loading-fill {
+    border-radius: 1.5em;
+    width: 380px;
+    height: 3em;
+    background-color: #d1cab8;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.loading-text{
+    color: black;
+    padding-top: 0.75em;
 }
